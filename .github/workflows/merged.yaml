@@ -1,0 +1,26 @@
+name: Merged
+
+on:
+  workflow_dispatch: {}
+  push: {}
+
+jobs:
+  py-black:
+    name: Merged
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - run: pip install black
+
+    - run: pip install mypy
+
+    - run: mypy binary-search-typed.py
+
+    # --check fails if black would reformat, succeeds if no changes
+    - run: black --check binary-search-typed.py
